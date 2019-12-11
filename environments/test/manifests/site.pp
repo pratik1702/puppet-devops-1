@@ -1,6 +1,6 @@
 node "test-site" {
 
-  file { ['/var/www']:
+  file { [ '/var/www/', '/var/www/test-app', '/var/www/test-app/current' ]:
     ensure => 'directory',
     owner   => root,
     group   => root,
@@ -31,7 +31,7 @@ node "test-site" {
     owner => 'root',
     group => 'root',
     mode => '0644',
-    source => 'puppet:///modules/nginx/example.com.crt',
+    source => '/vagrant/modules/nginx/example.com.crt',
   }
 
   file { '/etc/nginx/ssl/example.com.key':
@@ -39,7 +39,7 @@ node "test-site" {
     owner => 'root',
     group => 'root',
     mode => '0644',
-    source => 'puppet:///modules/nginx/example.com.key',
+    source => '/vagrant/modules/nginx/example.com.key',
   }
 
   $server_name = "testapi.example.com"

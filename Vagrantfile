@@ -13,6 +13,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.hostname = "test-site"
 
+#  config.vm.provision "file", source: "testapi.example.com.conf", destination: "/etc/nginx/sites-available/testapi.example.com.conf"
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
     sudo apt-get install -y vim htop
@@ -26,6 +27,9 @@ Vagrant.configure(2) do |config|
     sudo apt-mark hold puppet-agent
     sudo ln -sfv /opt/puppetlabs/bin/* /usr/bin
   SHELL
+
+  config.vm.network :forwarded_port, guest: 80, host: 80    # Nginx HTTP
+  config.vm.network :forwarded_port, guest: 443, host: 443   # Nginx HTTPS
 
   config.vm.provision "puppet" do |puppet|
     puppet.module_path = "modules"
